@@ -42,39 +42,36 @@ Your doc → [PM 视角] 目标读者是谁？他们已知什么？
 ```bash
 # 安装
 openclaw skill install consilium-doc
-
-# 使用
-review my_doc.md
-# 或
-review ./docs/api-reference.md --format=json
 ```
 
 ## Usage
 
-### 命令行
-```bash
-# 审查单个文件
-consilium-doc review README.md
+在对话中请求文档审查，或在上传文档后自动触发。
 
-# 审查整个文档目录
-consilium-doc review ./docs --recursive
+### 触发方式
+- **主动请求**：说"审查这份文档"、"看看写得怎么样"
+- **自动触发**：上传/创建文档后，OpenClaw 自动询问是否需要审查
 
-# 输出 JSON 供程序处理
-consilium-doc review api.md --format json
+### 示例对话
 
-# 生成修改后的版本
-consilium-doc review draft.md --apply-suggestions -o final.md
 ```
-
-### 在对话中使用
-```
-You: 帮我审查这份安装指南
-OpenClaw: [Doc Reviewer] 发现 3 个问题：
-          1. 第 2 步缺少 macOS 的说明
-          2. "配置环境变量" 太简略，建议给出具体命令
-          3. 没有故障排除章节
+You: 帮我审查这份 README
+OpenClaw: [Doc Reviewer] 📋 文档审查报告
           
-          要生成修改后的版本吗？
+          [PM] 目标读者明确 → 开发者，有一定技术基础
+          [Tech Writer] 发现 3 个问题：
+          
+          ⚠️ Step 2: 缺少 macOS 安装说明
+             建议：添加 "brew install xxx" 命令
+          
+          ⚠️ Step 3: "配置环境变量"太简略
+             建议：给出具体命令，如 export API_KEY="xxx"
+          
+          ⚠️ 缺少 Troubleshooting 章节
+             建议：添加常见问题（端口占用、权限错误等）
+          
+          总体评分：72/100 (B级)
+          需要我生成修改后的版本吗？
 ```
 
 ## Review Dimensions
@@ -102,6 +99,8 @@ OpenClaw: [Doc Reviewer] 发现 3 个问题：
 
 ## Example Output
 
+以下是 AI 生成的审查报告示例格式：
+
 ```json
 {
   "score": 72,
@@ -127,6 +126,8 @@ OpenClaw: [Doc Reviewer] 发现 3 个问题：
   ]
 }
 ```
+
+> 💡 **注意**：实际输出由 AI 根据文档内容实时生成，不一定是严格的 JSON 格式。
 
 ## Doc Types
 

@@ -55,43 +55,40 @@ Your code → [Architect] 架构是否合理？
 ```bash
 # 安装
 openclaw skill install consilium-code
-
-# 审查文件
-consilium-code review myfile.py
-
-# 审查 diff
-consilium-code review --diff HEAD~1
-
-# 在 PR 中使用
-consilium-code review --pr https://github.com/user/repo/pull/123
 ```
 
 ## Usage
 
-### 命令行
-```bash
-# 审查单个文件
-consilium-code review src/utils.py
+在对话中请求代码审查，或提供代码片段/文件路径。
 
-# 审查并输出 JSON
-consilium-code review main.ts --format json
+### 触发方式
+- **主动请求**：说"审查这段代码"、"帮我看看这个函数"
+- **提供代码**：粘贴代码或引用文件路径
 
-# 只检查特定维度
-consilium-code review app.py --focus=abstraction
+### 示例对话
 
-# 与最佳实践对比
-consilium-code review service.py --compare-with=google-python-style
 ```
-
-### 在对话中使用
-```
-You: 帮我审查这个函数
-OpenClaw: [Code Reviewer] 
-          ✅ 好：逻辑清晰，命名规范
-          ⚠️ 过：2个case用了策略模式，建议直接用if-else
-          ⚠️ 保：错误处理缺失，建议添加try-catch
+You: 审查这个函数
+OpenClaw: [Code Reviewer] 🔍 代码审议报告
+          
+          [Architect] 结构清晰，职责单一
+          [Pragmatist] 发现问题：
+          
+          ⚠️ 过设计 (第45行)
+             2个case用了策略模式
+             建议：直接用 if-else，等真有5+支付方式再重构
+             理由：当前复杂度收益不匹配
+          
+          ⚠️ 欠设计 (第78行)  
+             硬编码 API endpoint
+             建议：提取为配置项，支持环境切换
+             严重程度：高
+          
+          ✅ 优点 (第120行)
+             函数拆分合理，单一职责
           
           总体：简洁度 7/10，可维护性 8/10
+          平衡度：良好
 ```
 
 ## Review Dimensions
@@ -174,6 +171,8 @@ def process():
 
 ## Example Output
 
+以下是 AI 生成的审查报告示例格式：
+
 ```json
 {
   "file": "payment.py",
@@ -209,6 +208,8 @@ def process():
   "summary": "整体平衡度良好，注意避免为假设需求过度设计"
 }
 ```
+
+> 💡 **注意**：实际输出由 AI 根据代码内容实时生成，不一定是严格的 JSON 格式。
 
 ## Supported Languages
 
